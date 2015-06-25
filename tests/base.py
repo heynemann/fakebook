@@ -21,15 +21,8 @@ from fakebook.server import FakebookServer
 
 
 class TestCase(CowTestCase):
-    def tearDown(self):
-        self.server.application.redis.flushdb()
-        super(TestCase, self).tearDown()
-
     def get_config(self):
-        return dict(
-            REDISHOST='localhost',
-            REDISPORT=4448,
-        )
+        return dict()
 
     def get_app(self):
         app = super(TestCase, self).get_app()

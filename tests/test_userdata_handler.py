@@ -27,7 +27,7 @@ class UserDataHandlerTestCase(TestCase):
     @gen_test
     def test_responds_with_userdata(self):
         access_token = self.get_random_code()
-        response = yield self.fetch('/userdata?access_token=%s' % access_token)
+        response = yield self.fetch('/me?access_token=%s' % access_token)
         expect(response.code).to_equal(200)
 
         obj = loads(response.body)
@@ -64,7 +64,7 @@ class UserDataHandlerTestCase(TestCase):
     @gen_test
     def test_responds_with_userdata_fields_only(self):
         access_token = self.get_random_code()
-        response = yield self.fetch('/userdata?access_token=%s&fields=id,email' % access_token)
+        response = yield self.fetch('/me?access_token=%s&fields=id,email' % access_token)
         expect(response.code).to_equal(200)
 
         obj = loads(response.body)

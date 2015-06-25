@@ -35,7 +35,7 @@ class FakebookServer(Server):
         handlers = [
             ('/login', LoginHandler),
             ('/token', TokenHandler),
-            ('/userdata', UserDataHandler)
+            ('/me', UserDataHandler)
         ]
 
         return tuple(handlers)
