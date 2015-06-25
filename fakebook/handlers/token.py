@@ -15,6 +15,7 @@ import random
 from datetime import datetime
 
 from tornado.gen import coroutine
+from tornado.web import asynchronous
 from swnamer import NameGenerator
 
 from fakebook.handlers import BaseHandler
@@ -22,17 +23,27 @@ from fakebook.handlers import BaseHandler
 
 class TokenHandler(BaseHandler):
     @coroutine
+    @asynchronous
     def get(self):
+        self.application.io_loop.call_later(self.application.config.TOKEN_LATENCY / 1000.0, self.handle_get_token)
+
+    def handle_get_token(self):
         code = self.get_argument('code')
         token = b64encode(code + str(uuid4()))
         self.write(dumps({
             'access_token': token,
         }))
 
+        self.finish()
+
 
 class UserDataHandler(BaseHandler):
     @coroutine
+    @asynchronous
     def get(self):
+        self.application.io_loop.call_later(self.application.config.USERDATA_LATENCY / 1000.0, self.handle_get_user_data)
+
+    def handle_get_user_data(self):
         token = self.get_argument('access_token')
         fields = [field for field in self.get_argument('fields', '').split(',') if field]
         generator = NameGenerator(lowercase=True, separator=" ")
@@ -72,3 +83,4 @@ class UserDataHandler(BaseHandler):
             userdata = data
 
         self.write(dumps(userdata))
+        self.finish()
