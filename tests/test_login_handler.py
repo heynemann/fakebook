@@ -17,11 +17,11 @@ from tests.base import TestCase
 class LoginHandlerTestCase(TestCase):
     @gen_test
     def test_responds_with_code(self):
-        response = yield self.fetch('/login?redirect_uri=http://google.com', follow_redirects=False)
+        response = yield self.fetch('/oauth?redirect_uri=http://google.com', follow_redirects=False)
         expect(response.code).to_equal(302)
         expect(response.headers['Location']).to_include('http://google.com?code=')
 
     @gen_test
     def test_fails_if_no_redirect_provided(self):
-        response = yield self.fetch('/login', follow_redirects=False)
+        response = yield self.fetch('/oauth', follow_redirects=False)
         expect(response.code).to_equal(400)

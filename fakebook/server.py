@@ -33,7 +33,7 @@ class FakebookServer(Server):
 
     def get_handlers(self):
         handlers = [
-            ('/login', LoginHandler),
+            ('/oauth', LoginHandler),
             ('/token', TokenHandler),
             ('/me', UserDataHandler)
         ]

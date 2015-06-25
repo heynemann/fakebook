@@ -32,9 +32,9 @@ To specify your own configuration file (more on configuration values later):
 
 # Routes
 
-fakebook provides three routes: "/login", "/token" and "/me". The flow is:
+fakebook provides three routes: "/oauth", "/token" and "/me". The flow is:
 
-* get a login code from "/login?redirect_uri=<your site>" using an URI that points to where you want to receive the code;
+* get an oauth code from "/oauth?redirect_uri=<your site>" using an URI that points to where you want to receive the code;
 * get an acess_token from "/token?code=<your code>";
 * get user details using the provided access token from "/me?access_token=<your access_token>".
 
@@ -45,9 +45,9 @@ use the following format:
 
     ################################### General ####################################
 
-    ## Login route latency in MS. 0 to none.
+    ## OAuth route latency in MS. 0 to none.
     ## Defaults to: 100
-    LOGIN_LATENCY = 100
+    OAUTH_LATENCY = 100
 
     ## Token route latency in MS. 0 to none.
     ## Defaults to: 100

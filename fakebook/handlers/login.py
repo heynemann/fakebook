@@ -21,7 +21,7 @@ class LoginHandler(BaseHandler):
     @coroutine
     @asynchronous
     def get(self):
-        self.application.io_loop.call_later(self.application.config.LOGIN_LATENCY / 1000.0, self.handle_login)
+        self.application.io_loop.call_later(self.application.config.OAUTH_LATENCY / 1000.0, self.handle_login)
 
     def handle_login(self):
         code = b64encode(str(uuid4()))
