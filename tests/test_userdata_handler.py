@@ -26,10 +26,15 @@ def to_be_one_of(topic, expected):
 class UserDataHandlerTestCase(TestCase):
     @gen_test
     def test_responds_with_userdata(self):
-        response = yield self.fetch('/userdata?access_token=%s' % self.get_random_code())
+        access_token = self.get_random_code()
+        response = yield self.fetch('/userdata?access_token=%s' % access_token)
         expect(response.code).to_equal(200)
 
         obj = loads(response.body)
+
+        expect(obj).to_include('access_token')
+        expect(obj['access_token']).to_equal(access_token)
+
         expect(obj).to_include('id')
         expect(obj['id']).not_to_be_empty()
 
@@ -55,3 +60,28 @@ class UserDataHandlerTestCase(TestCase):
 
         expect(obj).to_include("relationship_status")
         expect(obj['relationship_status']).to_be_one_of(['Single', 'Married', 'Complicated'])
+
+    @gen_test
+    def test_responds_with_userdata_fields_only(self):
+        access_token = self.get_random_code()
+        response = yield self.fetch('/userdata?access_token=%s&fields=id,email' % access_token)
+        expect(response.code).to_equal(200)
+
+        obj = loads(response.body)
+
+        expect(obj).to_include('access_token')
+        expect(obj['access_token']).to_equal(access_token)
+
+        expect(obj).to_include('id')
+        expect(obj['id']).not_to_be_empty()
+
+        expect(obj).to_include("email")
+        expect(obj["email"]).not_to_be_empty()
+
+        expect(obj).not_to_include("birthday")
+        expect(obj).not_to_include("first_name")
+        expect(obj).not_to_include("middle_name")
+        expect(obj).not_to_include("last_name")
+        expect(obj).not_to_include("gender")
+        expect(obj).not_to_include("is_verified")
+        expect(obj).not_to_include("relationship_status")

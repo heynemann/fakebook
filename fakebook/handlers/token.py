@@ -33,6 +33,8 @@ class TokenHandler(BaseHandler):
 class UserDataHandler(BaseHandler):
     @coroutine
     def get(self):
+        token = self.get_argument('access_token')
+        fields = [field for field in self.get_argument('fields', '').split(',') if field]
         generator = NameGenerator(lowercase=True, separator=" ")
 
         name = generator.generate()
@@ -48,8 +50,9 @@ class UserDataHandler(BaseHandler):
         relationship = random.choice(['Single', 'Married', 'Complicated'])
         verified = True
 
-        self.write(dumps({
+        userdata = {
             "id": user_id,
+            "access_token": token,
             "birthday": birthday.strftime("%m/%d/%Y"),
             "email": email,
             "first_name": first_name,
@@ -58,4 +61,14 @@ class UserDataHandler(BaseHandler):
             "last_name": last_name,
             "middle_name": middle_name,
             "relationship_status": relationship
-        }))
+        }
+
+        if fields:
+            data = {
+                'access_token': token
+            }
+            for field in fields:
+                data[field] = userdata[field]
+            userdata = data
+
+        self.write(dumps(userdata))

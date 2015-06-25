@@ -25,7 +25,7 @@ tests_require = [
 ]
 
 setup(
-    name='fakebook',
+    name='fakebook_server',
     version=__version__,
     description='fakebook is a Facebook API simulator meant for test purposes',
     long_description='''
