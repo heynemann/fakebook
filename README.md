@@ -32,8 +32,37 @@ To specify your own configuration file (more on configuration values later):
 
 # Routes
 
-fakebook provides three routes: "/login", "/token" and "/userdata". The flow is:
+fakebook provides three routes: "/login", "/token" and "/me". The flow is:
 
 * get a login code from "/login?redirect_uri=<your site>" using an URI that points to where you want to receive the code;
-* get an acess_token from "/token?access_token=<your token>";
-* get user details using the provided access token from "/userdata".
+* get an acess_token from "/token?code=<your code>";
+* get user details using the provided access token from "/me?access_token=<your access_token>".
+
+# Configuration
+
+By default fakebook uses a latency of 100ms in each route, but that's configurable. If you pass a configuration file to fakebook,
+use the following format:
+
+    ################################### General ####################################
+
+    ## Login route latency in MS. 0 to none.
+    ## Defaults to: 100
+    LOGIN_LATENCY = 100
+
+    ## Token route latency in MS. 0 to none.
+    ## Defaults to: 100
+    TOKEN_LATENCY = 100
+
+    ## User Data route latency in MS. 0 to none.
+    ## Defaults to: 100
+    USERDATA_LATENCY = 100
+
+    ################################################################################
+
+# Contributing
+
+Just Fork, Commit and Pull Request. Rise and Repeat.
+
+# License
+
+This project is MIT licensed.
