@@ -10,7 +10,6 @@
 
 
 from cow.server import Server
-from cow.plugins.sync_redis_plugin import RedisPlugin
 
 from fakebook.handlers.login import LoginHandler
 from fakebook.handlers.token import TokenHandler, UserDataHandler
@@ -42,9 +41,7 @@ class FakebookServer(Server):
         return tuple(handlers)
 
     def get_plugins(self):
-        return [
-            RedisPlugin
-        ]
+        return []
 
 if __name__ == '__main__':
     main()

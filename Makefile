@@ -16,7 +16,7 @@ setup:
 	@pip install -U -e .\[tests\]
 
 # test your application (tests in the tests/ directory)
-test: redis_test unit
+test: unit
 
 unit:
 	@coverage run --branch `which nosetests` -vv --with-yanc -s tests/
@@ -25,31 +25,6 @@ unit:
 # show coverage in html format
 coverage-html: unit
 	@coverage html
-
-# get a redis instance up (localhost:4444)
-redis: kill_redis
-	redis-server ./redis.conf; sleep 1
-	redis-cli -p 4444 info > /dev/null
-
-# kill this redis instance (localhost:4444)
-kill_redis:
-	-redis-cli -p 4444 shutdown
-
-# get a redis instance up for your unit tests (localhost:4448)
-redis_test: kill_redis_test
-	@redis-server ./redis.tests.conf; sleep 1
-	@redis-cli -p 4448 info > /dev/null
-
-# kill the test redis instance (localhost:4448)
-kill_redis_test:
-	@-redis-cli -p 4448 shutdown
-
-# run tests against all supported python versions
-tox:
-	@tox
-
-#docs:
-	#@cd fakebook/docs && make html && open _build/html/index.html
 
 run:
 	@fakebook -vvv -c ./fakebook/config/local.conf -p 3000
